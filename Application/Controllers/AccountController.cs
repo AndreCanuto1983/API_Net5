@@ -100,8 +100,7 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] UserLoginContract model)
-        {
-            //if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+        {            
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
 
@@ -225,8 +224,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         [Route("forgotpassword")]
         public async Task<ActionResult> ForgotPassword([FromBody] UserForgotPasswordContract model)
-        {
-            //if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+        {            
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
 
@@ -240,15 +238,6 @@ namespace WebAPI.Controllers
                 if (await _userManager.IsEmailConfirmedAsync(user))
                 {
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-
-                    //método original para resetar password
-                    //var passwordResetLink = Url.Action("resetpassword", "account", new { email = model.Email, token = token }, Request.Scheme);
-
-                    //envia email
-                    //var emailResponse = await _emailService.SendEmailAsync(model.Email, "Recuperar Senha");
-
-                    //if (!response)
-                    //    return base.Ok("E-mail não enviado. Por favor tente mais tarde.");
 
                     var response = AccountExtension.ResponseLogin2Front(
                     token,
