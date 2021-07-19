@@ -25,9 +25,6 @@ namespace Infra.Context
                     .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade)
                     .ToList()
                     .ForEach(fk => fk.DeleteBehavior = DeleteBehavior.Restrict);
-
-                // equivalent to entityframework 6 : modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-                //                                 : modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             }
 
             modelBuilder.Seed();

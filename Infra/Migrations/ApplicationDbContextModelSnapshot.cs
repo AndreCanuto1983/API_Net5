@@ -111,7 +111,7 @@ namespace Infra.Migrations
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "78396abd-602c-43dd-9087-204c91b6b0f4",
                             CreationDate = new DateTime(2021, 7, 19, 12, 31, 30, 758, DateTimeKind.Utc).AddTicks(8370),
-                            Email = "master@simis.me",
+                            Email = "test@gmail.com",
                             EmailConfirmed = true,
                             IsDeleted = false,
                             LockoutEnabled = true,
@@ -120,7 +120,7 @@ namespace Infra.Migrations
                             SecurityStamp = "eaaede17-531d-4be0-85ad-0a7252f909c5",
                             TwoFactorEnabled = false,
                             UpdateDate = new DateTime(2021, 7, 19, 12, 31, 30, 758, DateTimeKind.Utc).AddTicks(8370),
-                            UserName = "master@simis.me"
+                            UserName = "test@gmail.com"
                         });
                 });
 
