@@ -107,19 +107,19 @@ namespace Infra.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a809f196-924e-46e5-975f-571b390b219d",
+                            Id = "6b633c89-cbec-4668-9c56-c78273437b60",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "78396abd-602c-43dd-9087-204c91b6b0f4",
-                            CreationDate = new DateTime(2021, 7, 19, 12, 31, 30, 758, DateTimeKind.Utc).AddTicks(8370),
+                            ConcurrencyStamp = "cecc4a8d-1e81-4cfc-b160-1a80b5c1dc60",
+                            CreationDate = new DateTime(2021, 7, 20, 16, 54, 41, 384, DateTimeKind.Utc).AddTicks(4169),
                             Email = "test@gmail.com",
                             EmailConfirmed = true,
                             IsDeleted = false,
                             LockoutEnabled = true,
                             Name = "Master",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "eaaede17-531d-4be0-85ad-0a7252f909c5",
+                            SecurityStamp = "48724a69-4b79-4e68-8f62-5dfb35f943fd",
                             TwoFactorEnabled = false,
-                            UpdateDate = new DateTime(2021, 7, 19, 12, 31, 30, 758, DateTimeKind.Utc).AddTicks(8370),
+                            UpdateDate = new DateTime(2021, 7, 20, 16, 54, 41, 384, DateTimeKind.Utc).AddTicks(4169),
                             UserName = "test@gmail.com"
                         });
                 });
@@ -154,21 +154,21 @@ namespace Infra.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "d6c25060-7dc3-4201-9dfa-976a00b5bbd3",
+                            ConcurrencyStamp = "375ad46d-0d0e-4d07-9978-39d19b8000b7",
                             Name = "Master",
                             NormalizedName = "MASTER"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "19df5eec-ec76-42da-a8e4-17267eefdfda",
+                            ConcurrencyStamp = "4e7a6f34-6f82-442c-bd6a-7759faa8e4ec",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "3e2b034b-fd6c-4f1c-b289-1b25de25063c",
+                            ConcurrencyStamp = "4bd1b99b-718f-4e69-a70d-72ced92760da",
                             Name = "Commom",
                             NormalizedName = "COMMOM"
                         });

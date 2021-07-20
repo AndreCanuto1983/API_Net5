@@ -77,7 +77,7 @@ namespace WebAPI
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins("http://localhost:8080", "https://simis-ccef7.web.app", "http://simisapp.ddns.net:3000"));
+                    builder => builder.WithOrigins("http://localhost:8080"));
             });
 
             services.AddControllers();

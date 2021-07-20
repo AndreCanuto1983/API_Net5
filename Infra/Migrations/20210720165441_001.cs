@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infra.Migrations
 {
-    public partial class S001 : Migration
+    public partial class _001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -164,15 +164,15 @@ namespace Infra.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "d6c25060-7dc3-4201-9dfa-976a00b5bbd3", "Master", "MASTER" },
-                    { "2", "19df5eec-ec76-42da-a8e4-17267eefdfda", "Admin", "ADMIN" },
-                    { "3", "3e2b034b-fd6c-4f1c-b289-1b25de25063c", "Commom", "COMMOM" }
+                    { "1", "375ad46d-0d0e-4d07-9978-39d19b8000b7", "Master", "MASTER" },
+                    { "2", "4e7a6f34-6f82-442c-bd6a-7759faa8e4ec", "Admin", "ADMIN" },
+                    { "3", "4bd1b99b-718f-4e69-a70d-72ced92760da", "Commom", "COMMOM" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "BirthDate", "ConcurrencyStamp", "Cpf", "CreationDate", "Email", "EmailConfirmed", "IsDeleted", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdateDate", "UserLocation", "UserName" },
-                values: new object[] { "a809f196-924e-46e5-975f-571b390b219d", 0, null, "78396abd-602c-43dd-9087-204c91b6b0f4", null, new DateTime(2021, 7, 19, 12, 31, 30, 758, DateTimeKind.Utc).AddTicks(8370), "", true, false, true, null, "Master", null, null, null, null, false, "eaaede17-531d-4be0-85ad-0a7252f909c5", false, new DateTime(2021, 7, 19, 12, 31, 30, 758, DateTimeKind.Utc).AddTicks(8370), null, "test@gmail.com" });
+                values: new object[] { "6b633c89-cbec-4668-9c56-c78273437b60", 0, null, "cecc4a8d-1e81-4cfc-b160-1a80b5c1dc60", null, new DateTime(2021, 7, 20, 16, 54, 41, 384, DateTimeKind.Utc).AddTicks(4169), "test@gmail.com", true, false, true, null, "Master", null, null, null, null, false, "48724a69-4b79-4e68-8f62-5dfb35f943fd", false, new DateTime(2021, 7, 20, 16, 54, 41, 384, DateTimeKind.Utc).AddTicks(4169), null, "test@gmail.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",

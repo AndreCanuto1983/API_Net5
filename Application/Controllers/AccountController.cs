@@ -4,7 +4,6 @@ using Domain.Contracts.Account.Extensions;
 using Domain.Contracts.User.Extensions;
 using Domain.Contracts.User.Input;
 using Domain.Models;
-using Infra.Configuration;
 using Infra.Interfaces;
 using Infra.Services;
 using Microsoft.AspNetCore.Authorization;
