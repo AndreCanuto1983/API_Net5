@@ -150,7 +150,7 @@ namespace WebAPI.Controllers
         {
             var userNameInToken = User.Identity.Name;
             var userIsAuthenticatedInToken = User.Identity.IsAuthenticated;
-
+            
             return Ok();
         }
 
@@ -180,8 +180,7 @@ namespace WebAPI.Controllers
         /// Resetar Senha
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>                        
-        //[Authorize(Roles = "Master,Admin")]
+        /// <returns></returns>                                
         [AllowAnonymous]
         [HttpPost]
         [Route("resetpassword")]
@@ -264,6 +263,7 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         /// 
+        //[Authorize(Roles = "Master,Admin")]
         [Authorize]
         [HttpGet("user")]
         public async Task<ActionResult> GetUsers()
@@ -287,6 +287,7 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         /// 
+        //[Authorize(Roles = "Master,Admin")]
         [Authorize]
         [HttpGet("user/{email}")]
         public async Task<ActionResult> GetUsersByEmail(string email)

@@ -28,7 +28,7 @@ namespace Infra.Services
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress(emailSettings.From, "Simis");
                 mailMessage.To.Add(toEmail);
-                mailMessage.CC.Add("test@gmail.com");
+                mailMessage.CC.Add(emailSettings.From);
                 mailMessage.Subject = emailTitle;
                 mailMessage.IsBodyHtml = true;
                 mailMessage.Body = HtmlContentGenerate("André");
