@@ -1,4 +1,5 @@
-﻿using Infra.Interfaces;
+﻿using Domain.Interfaces.Repository;
+using Domain.Interfaces.Service;
 using Infra.Repository;
 using Infra.Services;
 using Microsoft.Extensions.DependencyInjection;

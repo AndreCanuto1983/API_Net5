@@ -8,4 +8,10 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.8" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Core">
+      <HintPath>..\Core\bin\Debug\net5.0\Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

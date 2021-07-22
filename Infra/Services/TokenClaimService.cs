@@ -1,6 +1,6 @@
 ﻿using Core.Models.Base;
+using Domain.Interfaces.Service;
 using Domain.Models;
-using Infra.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System;

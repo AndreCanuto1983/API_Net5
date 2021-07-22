@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Infra.Interfaces
+namespace Domain.Interfaces.Service
 {
     public interface IResponse<T>
     {

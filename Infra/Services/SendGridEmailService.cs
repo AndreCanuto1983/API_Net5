@@ -1,5 +1,5 @@
 ﻿using Core.Models.BaseModel;
-using Infra.Interfaces;
+using Domain.Interfaces.Service;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;

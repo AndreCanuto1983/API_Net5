@@ -1,7 +1,7 @@
 ﻿using Domain.Contracts.User.Extensions;
 using Domain.Contracts.User.Output;
+using Domain.Interfaces.Repository;
 using Infra.Context;
-using Infra.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Infra.Interfaces
+namespace Domain.Interfaces.Repository
 {
     public interface IUserRepository
     {
