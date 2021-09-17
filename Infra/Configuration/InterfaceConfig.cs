@@ -11,11 +11,11 @@ namespace Infra.Configuration
         public static void InterfaceImplementation(ref IServiceCollection services)
         {
             //Register General
-            services.AddTransient<IGenerateToken, TokenClaimService>();                 
-            services.AddTransient<IEmailService, SendGridEmailService>();
+            services.AddScoped<IGenerateToken, TokenClaimService>();                 
+            services.AddScoped<IEmailService, SendGridEmailService>();
 
             //Register Repository
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
     }
 }
