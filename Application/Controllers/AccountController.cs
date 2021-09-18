@@ -1,9 +1,6 @@
-using Core.Exceptions;
 using Core.Models.Base;
 using Domain.Contracts.Account.Extensions;
-using Domain.Contracts.User.Extensions;
 using Domain.Contracts.User.Input;
-using Domain.Interfaces.Repository;
 using Domain.Interfaces.Service;
 using Domain.Models;
 using Infra.Services;
@@ -30,77 +27,35 @@ namespace WebAPI.Controllers
         private readonly UserManager<UserModel> _userManager;
         private readonly AppSettings _appSettings;
         private IEmailService _emailService;
-        private readonly IUserRepository _userRepository;
 
         public AccountController(
            SignInManager<UserModel> signInManager,
            UserManager<UserModel> userManager,
            IOptions<AppSettings> appSettings,
-           IEmailService emailService,
-           IUserRepository userRepository
+           IEmailService emailService
             )
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _appSettings = appSettings.Value;
             _emailService = emailService;
-            _userRepository = userRepository;
         }
 
         #endregion
-
-        /// <summary>
-        /// Cadastro de Usuários
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpPost("register")]
-        public async Task<ActionResult> Register(UserRegisterContract model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
-
-            try
-            {
-                var user = model.UserRegister2Back();
-
-                var result = await _userManager.CreateAsync(user, model.Password);
-
-                if (!result.Succeeded)
-                    return BadRequest("A senha deve ter de 6 a 20 caracteres e conter letra maiúscula, minúscula, caracter especial e número.");
-
-                var createdUser = await _userManager.FindByEmailAsync(model.Email);
-
-                await _signInManager.SignInAsync(user, false);
-
-                var response = AccountExtension.ResponseLogin2Front(
-                    TokenRoleService.GenerateJwtRoles(createdUser, "", _appSettings),
-                    DateTime.Now.AddHours(_appSettings.Expiration),
-                    user.Email,
-                    user.Name);
-
-                return Ok(response);
-            }
-            catch (CustomErrorException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
-            }
-        }
-
+                
         /// <summary>
         /// Login
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        /// <response code="200">Logado com sucesso</response>
+        /// <response code="400">Payload incorreto</response>
+        /// <response code="404">Usuário não encontrado</response>
+        /// <response code="423">Usuário bloqueado temporariamente</response>
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] UserLoginContract model)
-        {            
+        public async Task<IActionResult> Login([FromBody] UserLoginContract model)
+        {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
 
@@ -131,10 +86,6 @@ namespace WebAPI.Controllers
 
                 return BadRequest("Usuário ou Senha inválidos.");
             }
-            catch (CustomErrorException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
@@ -145,13 +96,14 @@ namespace WebAPI.Controllers
         /// Validar token de usuário
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Token validado com sucesso</response>
         [Authorize]
         [HttpPost("token")]
-        public ActionResult TokenValidate()
+        public IActionResult TokenValidate()
         {
             var userNameInToken = User.Identity.Name;
             var userIsAuthenticatedInToken = User.Identity.IsAuthenticated;
-            
+
             return Ok();
         }
 
@@ -159,17 +111,14 @@ namespace WebAPI.Controllers
         /// Logout
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Deslogado com sucesso</response>
         [HttpPost("logout")]
-        public async Task<ActionResult> Logout()
+        public async Task<IActionResult> Logout()
         {
             try
             {
                 await _signInManager.SignOutAsync();
                 return Ok();
-            }
-            catch (CustomErrorException ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -181,11 +130,14 @@ namespace WebAPI.Controllers
         /// Resetar Senha
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>                                
+        /// <returns></returns>   
+        /// <response code="200">Senha resetada com sucesso</response>
+        /// <response code="400">Payload incorreto</response>
+        /// <response code="404">Usuário não encontrado</response>        
         [AllowAnonymous]
         [HttpPost]
         [Route("resetpassword")]
-        public async Task<ActionResult> ResetPassword([FromBody] UserResetPasswordContract model)
+        public async Task<IActionResult> ResetPassword([FromBody] UserResetPasswordContract model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
@@ -204,10 +156,6 @@ namespace WebAPI.Controllers
 
                 return Ok("Senha alterada com sucesso.");
             }
-            catch (CustomErrorException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
@@ -219,11 +167,15 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        /// <response code="200">Permitido alteração de senha</response>
+        /// <response code="400">Payload incorreto</response>
+        /// <response code="403">Usuário sem e-mail confirmado</response>
+        /// <response code="404">Usuário não encontrado</response>
         [AllowAnonymous]
         [HttpPost]
         [Route("forgotpassword")]
-        public async Task<ActionResult> ForgotPassword([FromBody] UserForgotPasswordContract model)
-        {            
+        public async Task<IActionResult> ForgotPassword([FromBody] UserForgotPasswordContract model)
+        {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
 
@@ -247,59 +199,7 @@ namespace WebAPI.Controllers
                     return base.Ok(response);
                 }
 
-                return BadRequest("Este usuário não possui email confirmado.");
-            }
-            catch (CustomErrorException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
-            }
-        }
-
-        /// <summary>
-        /// Buscar usuários
-        /// </summary>
-        /// <returns></returns>
-        /// 
-        //[Authorize(Roles = "Master,Admin")]
-        [Authorize]
-        [HttpGet("user")]
-        public async Task<ActionResult> GetUsers()
-        {
-            try
-            {
-                return Ok(await _userRepository.GetUsers());
-            }
-            catch (CustomErrorException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
-            }
-        }
-
-        /// <summary>
-        /// Buscar usuário por email
-        /// </summary>
-        /// <returns></returns>
-        /// 
-        //[Authorize(Roles = "Master,Admin")]
-        [Authorize]
-        [HttpGet("user/{email}")]
-        public async Task<ActionResult> GetUsersByEmail(string email)
-        {
-            try
-            {
-                return Ok(await _userRepository.GetUserByEmail(email));
-            }
-            catch (CustomErrorException ex)
-            {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status403Forbidden, "Este usuário não possui email confirmado.");
             }
             catch (Exception ex)
             {
