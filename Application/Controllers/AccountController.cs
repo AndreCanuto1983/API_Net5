@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
         /// <response code="423">Usuário bloqueado temporariamente</response>
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserLoginContract model)
+        public async Task<IActionResult> Login(UserLoginContract model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
@@ -137,7 +137,7 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("resetpassword")]
-        public async Task<IActionResult> ResetPassword([FromBody] UserResetPasswordContract model)
+        public async Task<IActionResult> ResetPassword(UserResetPasswordContract model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
@@ -174,7 +174,7 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("forgotpassword")]
-        public async Task<IActionResult> ForgotPassword([FromBody] UserForgotPasswordContract model)
+        public async Task<IActionResult> ForgotPassword(UserForgotPasswordContract model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
