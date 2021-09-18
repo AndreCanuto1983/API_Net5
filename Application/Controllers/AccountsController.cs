@@ -15,10 +15,10 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
-    [Authorize]
-    [Route("api/v1/account")]
+    [Authorize]    
     [ApiController]
-    public class AccountController : ControllerBase
+    [Route("v1/accounts")]
+    public class AccountsController : ControllerBase
     {
 
         #region Dependency Injection
@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
         private readonly AppSettings _appSettings;
         private IEmailService _emailService;
 
-        public AccountController(
+        public AccountsController(
            SignInManager<UserModel> signInManager,
            UserManager<UserModel> userManager,
            IOptions<AppSettings> appSettings,

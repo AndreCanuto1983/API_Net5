@@ -17,9 +17,9 @@ using System.Threading.Tasks;
 namespace Api.Controllers
 {
     [Authorize]
-    [Route("api/v1/user")]
+    [Route("v1/users")]
     [ApiController]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         #region Dependency Injection
 
@@ -28,7 +28,7 @@ namespace Api.Controllers
         private readonly AppSettings _appSettings;
         private readonly IUserRepository _userRepository;
 
-        public UserController(
+        public UsersController(
            SignInManager<UserModel> signInManager,
            UserManager<UserModel> userManager,
            IOptions<AppSettings> appSettings,
