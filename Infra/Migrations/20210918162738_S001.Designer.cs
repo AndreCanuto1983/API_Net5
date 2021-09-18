@@ -10,15 +10,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210720165441_001")]
-    partial class _001
+    [Migration("20210918162738_S001")]
+    partial class S001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.8")
+                .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Domain.Models.UserModel", b =>
@@ -109,19 +109,19 @@ namespace Infra.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6b633c89-cbec-4668-9c56-c78273437b60",
+                            Id = "18ac381b-bb95-4ea9-ba13-7a61b2c35143",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cecc4a8d-1e81-4cfc-b160-1a80b5c1dc60",
-                            CreationDate = new DateTime(2021, 7, 20, 16, 54, 41, 384, DateTimeKind.Utc).AddTicks(4169),
+                            ConcurrencyStamp = "83e3cee4-9c8e-4716-a90b-90823c475cf0",
+                            CreationDate = new DateTime(2021, 9, 18, 16, 27, 37, 970, DateTimeKind.Utc).AddTicks(9454),
                             Email = "test@gmail.com",
                             EmailConfirmed = true,
                             IsDeleted = false,
                             LockoutEnabled = true,
                             Name = "Master",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "48724a69-4b79-4e68-8f62-5dfb35f943fd",
+                            SecurityStamp = "479e3d9e-8b01-49a7-84e0-3cff1bd1e860",
                             TwoFactorEnabled = false,
-                            UpdateDate = new DateTime(2021, 7, 20, 16, 54, 41, 384, DateTimeKind.Utc).AddTicks(4169),
+                            UpdateDate = new DateTime(2021, 9, 18, 16, 27, 37, 970, DateTimeKind.Utc).AddTicks(9454),
                             UserName = "test@gmail.com"
                         });
                 });
@@ -156,21 +156,21 @@ namespace Infra.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "375ad46d-0d0e-4d07-9978-39d19b8000b7",
+                            ConcurrencyStamp = "cd762f1c-936a-45c4-8791-71158db5bbb1",
                             Name = "Master",
                             NormalizedName = "MASTER"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "4e7a6f34-6f82-442c-bd6a-7759faa8e4ec",
+                            ConcurrencyStamp = "38930030-f161-4d3d-9108-a4fce7096aab",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "4bd1b99b-718f-4e69-a70d-72ced92760da",
+                            ConcurrencyStamp = "005f086e-1b0f-4d63-af60-b85c9e29dc42",
                             Name = "Commom",
                             NormalizedName = "COMMOM"
                         });
