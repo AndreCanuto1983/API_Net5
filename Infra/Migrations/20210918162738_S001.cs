@@ -172,7 +172,7 @@ namespace Infra.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "BirthDate", "ConcurrencyStamp", "Cpf", "CreationDate", "Email", "EmailConfirmed", "IsDeleted", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdateDate", "UserLocation", "UserName" },
-                values: new object[] { "18ac381b-bb95-4ea9-ba13-7a61b2c35143", 0, null, "83e3cee4-9c8e-4716-a90b-90823c475cf0", null, new DateTime(2021, 9, 18, 16, 27, 37, 970, DateTimeKind.Utc).AddTicks(9454), "test@gmail.com", true, false, true, null, "Master", null, null, null, null, false, "479e3d9e-8b01-49a7-84e0-3cff1bd1e860", false, new DateTime(2021, 9, 18, 16, 27, 37, 970, DateTimeKind.Utc).AddTicks(9454), null, "test@gmail.com" });
+                values: new object[] { "18ac381b-bb95-4ea9-ba13-7a61b2c35143", 0, null, "83e3cee4-9c8e-4716-a90b-90823c475cf0", null, new DateTime(2021, 9, 18, 16, 27, 37, 970, DateTimeKind.Utc).AddTicks(9454), "master@gmail.com", true, false, true, null, "Master", null, null, null, null, false, "479e3d9e-8b01-49a7-84e0-3cff1bd1e860", false, new DateTime(2021, 9, 18, 16, 27, 37, 970, DateTimeKind.Utc).AddTicks(9454), null, "master@gmail.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",

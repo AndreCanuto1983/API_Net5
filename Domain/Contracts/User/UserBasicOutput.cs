@@ -1,6 +1,6 @@
-﻿namespace Domain.Contracts.User.Output
+﻿namespace Domain.Contracts.User
 {
-    public class UserBasicContract
+    public class UserBasicOutput
     {
         public string Name { get; set; }
 

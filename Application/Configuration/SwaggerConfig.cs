@@ -15,7 +15,7 @@ namespace WebAPI.Configuration
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "André API"
+                    Title = "André Canuto API"
                 });
 
                 // Set the comments path for the Swagger JSON and UI.

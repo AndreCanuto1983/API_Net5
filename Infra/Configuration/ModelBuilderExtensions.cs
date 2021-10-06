@@ -11,8 +11,8 @@ namespace Infra.Configuration
             modelBuilder.Entity<UserModel>().HasData(
                 new UserModel
                 {
-                    UserName = "test@gmail.com",
-                    Email = "test@gmail.com",
+                    UserName = "master@gmail.com",
+                    Email = "master@gmail.com",
                     LockoutEnabled = true,
                     Name = "Master",
                     EmailConfirmed = true                    

@@ -1,6 +1,6 @@
 using Core.Models.Base;
 using Domain.Contracts.Account.Extensions;
-using Domain.Contracts.User.Input;
+using Domain.Contracts.User;
 using Domain.Interfaces.Service;
 using Domain.Models;
 using Infra.Services;
@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
         /// <response code="423">Usuário bloqueado temporariamente</response>
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginContract model)
+        public async Task<IActionResult> Login(UserLoginInput model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
@@ -75,7 +75,7 @@ namespace WebAPI.Controllers
 
                 if (result.Succeeded)
                 {
-                    var response = AccountExtension.ResponseLogin2Front(
+                    var response = AccountExtension.ConvertToResponseLoginContract(
                     TokenRoleService.GenerateJwtRoles(user, role.Count > 0 ? role[0] : "", _appSettings),
                     DateTime.Now.AddHours(_appSettings.Expiration),
                     user.Email,
@@ -136,8 +136,8 @@ namespace WebAPI.Controllers
         /// <response code="404">Usuário não encontrado</response>        
         [AllowAnonymous]
         [HttpPost]
-        [Route("resetpassword")]
-        public async Task<IActionResult> ResetPassword(UserResetPasswordContract model)
+        [Route("reset-password")]
+        public async Task<IActionResult> ResetPassword(UserResetPasswordInput model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
@@ -173,8 +173,8 @@ namespace WebAPI.Controllers
         /// <response code="404">Usuário não encontrado</response>
         [AllowAnonymous]
         [HttpPost]
-        [Route("forgotpassword")]
-        public async Task<IActionResult> ForgotPassword(UserForgotPasswordContract model)
+        [Route("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(UserForgotPasswordInput model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
@@ -190,7 +190,7 @@ namespace WebAPI.Controllers
                 {
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-                    var response = AccountExtension.ResponseLogin2Front(
+                    var response = AccountExtension.ConvertToResponseLoginContract(
                     token,
                     DateTime.Now.AddHours(_appSettings.Expiration),
                     user.Email,

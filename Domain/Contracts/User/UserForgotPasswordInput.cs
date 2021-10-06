@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Contracts.User.Input
+namespace Domain.Contracts.User
 {
-    public class UserForgotPasswordContract
+    public class UserForgotPasswordInput
     {
         [Required(ErrorMessage = "O campo Email é obrigatório")]
         [DataType(DataType.EmailAddress)]

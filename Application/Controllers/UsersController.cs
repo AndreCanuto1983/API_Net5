@@ -1,7 +1,7 @@
 ﻿using Core.Models.Base;
 using Domain.Contracts.Account.Extensions;
 using Domain.Contracts.User.Extensions;
-using Domain.Contracts.User.Input;
+using Domain.Contracts.User;
 using Domain.Interfaces.Repository;
 using Domain.Models;
 using Infra.Services;
@@ -44,21 +44,22 @@ namespace Api.Controllers
         #endregion
 
         /// <summary>
-        /// Cadastro de Usuários
+        /// Cadastrar Usuário
         /// </summary>
         /// <param name="model"></param>
         /// <response code="201">Criado com sucesso</response>
-        /// <response code="400">Payload incorreto</response>    
+        /// <response code="400">Payload incorreto</response>   
+        /// <returns>201</returns>
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Register(UserRegisterContract model)
+        public async Task<IActionResult> Register(UserRegisterInput model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
 
             try
             {
-                var user = model.UserRegister2Back();
+                var user = model.ConverterToUserModel();
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -69,7 +70,7 @@ namespace Api.Controllers
 
                 await _signInManager.SignInAsync(user, false);
 
-                var response = AccountExtension.ResponseLogin2Front(
+                var response = AccountExtension.ConvertToResponseLoginContract(
                     TokenRoleService.GenerateJwtRoles(createdUser, "", _appSettings),
                     DateTime.Now.AddHours(_appSettings.Expiration),
                     user.Email,
@@ -84,19 +85,30 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Buscar usuários
+        /// Atualizar Usuário
         /// </summary>
-        /// <returns></returns>
-        /// <response code="200">Busca de lista de usuário bem sucedida</response>
-        /// <response code="400">Payload incorreto</response>
-        //[Authorize(Roles = "Master,Admin")]
+        /// <param name="model"></param>
+        /// <response code="200">Atualizado com sucesso</response>
+        /// <response code="400">Payload incorreto</response>   
+        /// <response code="401">Usuário não logado</response>
+        /// <returns>200</returns>
         [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        [HttpPut]
+        public async Task<IActionResult> Update(UserUpdateInput model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
+
             try
             {
-                return Ok(await _userRepository.GetUsers());
+                var user = await _userManager.FindByEmailAsync(model.Email);
+
+                var result = await _userManager.UpdateAsync(UserExtension.ConverterToUserModelForUpdate(ref user, ref model));
+
+                if (!result.Succeeded)
+                    return BadRequest();
+
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -105,12 +117,82 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Buscar usuário por email
+        /// Atualizar Senha do Usuário
+        /// </summary>
+        /// <param name="model"></param>
+        /// <response code="200">Atualizado com sucesso</response>
+        /// <response code="400">Payload incorreto</response>  
+        /// <response code="401">Usuário não logado</response>
+        /// <returns>200</returns>
+        [Authorize]
+        [HttpPatch]
+        public async Task<IActionResult> PartUpdate(PartUpdateUser model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
+
+            if (!model.IsValid())
+                return BadRequest("A nova senha não pode ser igual a atual");
+
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+
+                var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+                if (!result.Succeeded)
+                    return BadRequest();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// Deletar Usuário
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Busca de lista de usuário bem sucedida</response>
+        /// <response code="400">Payload incorreto</response>
+        /// <response code="401">Usuário não logado</response>
+        /// <returns>200</returns>
+        //[Authorize(Roles = "Master,Admin")]
+        [Authorize]
+        [HttpDelete("{email}")]
+        public async Task<IActionResult> Delete(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return BadRequest();
+
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+
+                if (user == null)
+                    return NotFound();
+
+                await _userManager.DeleteAsync(user);                
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// Buscar Usuário Por Email
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Busca de usuário bem sucedida</response>
         /// <response code="400">Payload incorreto</response>
+        /// <response code="401">Usuário não logado</response>
         /// <response code="404">Usuário não encontrado</response>
+        /// <returns>200, Usuário Desejado</returns>
         //[Authorize(Roles = "Master,Admin")]
         [Authorize]
         [HttpGet("{email}")]
@@ -125,5 +207,33 @@ namespace Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
+
+        /// <summary>
+        /// Buscar Usuários
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Busca de lista de usuário bem sucedida</response>
+        /// <response code="400">Payload incorreto</response>
+        /// <response code="401">Usuário não logado</response>
+        /// <returns>200, Lista de Usuários</returns>
+        //[Authorize(Roles = "Master,Admin")]
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var response = await _userRepository.GetUsers();
+
+                if (!response.Any())
+                    return NotFound();
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }                
     }
 }

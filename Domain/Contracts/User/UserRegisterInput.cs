@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Contracts.User.Input
+namespace Domain.Contracts.User
 {
-    public class UserRegisterContract
+    public class UserRegisterInput
     {
         [Required(ErrorMessage = "O Email é obrigatório")]
         [DataType(DataType.EmailAddress)]

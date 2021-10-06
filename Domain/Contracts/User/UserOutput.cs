@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Domain.Contracts.User.Output
+namespace Domain.Contracts.User
 {
-    public class UserContract
+    public class UserOutput
     {
         public string Name { get; set; }
         public string Email { get; set; }

@@ -111,7 +111,7 @@ namespace Infra.Migrations
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "83e3cee4-9c8e-4716-a90b-90823c475cf0",
                             CreationDate = new DateTime(2021, 9, 18, 16, 27, 37, 970, DateTimeKind.Utc).AddTicks(9454),
-                            Email = "test@gmail.com",
+                            Email = "master@gmail.com",
                             EmailConfirmed = true,
                             IsDeleted = false,
                             LockoutEnabled = true,
@@ -120,7 +120,7 @@ namespace Infra.Migrations
                             SecurityStamp = "479e3d9e-8b01-49a7-84e0-3cff1bd1e860",
                             TwoFactorEnabled = false,
                             UpdateDate = new DateTime(2021, 9, 18, 16, 27, 37, 970, DateTimeKind.Utc).AddTicks(9454),
-                            UserName = "test@gmail.com"
+                            UserName = "master@gmail.com"
                         });
                 });
 

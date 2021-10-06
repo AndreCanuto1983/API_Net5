@@ -1,5 +1,5 @@
 ﻿using Domain.Contracts.User.Extensions;
-using Domain.Contracts.User.Output;
+using Domain.Contracts.User;
 using Domain.Interfaces.Repository;
 using Infra.Context;
 using Microsoft.EntityFrameworkCore;
@@ -17,18 +17,18 @@ namespace Infra.Repository
             _context = context;
         }
 
-        public async Task<UserContract> GetUserByEmail(string email)
+        public async Task<UserOutput> GetUserByEmail(string email)
         {
             var user = await _context.User.AsNoTracking().Where(u => u.Email == email).FirstOrDefaultAsync();
 
-            return user.User2Front();
+            return user.ConverterToUserContract();
         }
 
-        public async Task<IEnumerable<UserContract>> GetUsers()
+        public async Task<IEnumerable<UserOutput>> GetUsers()
         {
-            var users = await _context.User.AsNoTracking().Where(u => !u.IsDeleted).ToListAsync();
+            var users = await _context.User.AsNoTracking().Where(u => !u.IsDeleted && u.Email != "master@gmail.com").ToListAsync();
 
-            return users.Select(u => u.User2Front()).ToList();
+            return users.Select(u => u.ConverterToUserContract()).ToList();
         }
     }
 }

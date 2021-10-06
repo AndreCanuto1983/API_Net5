@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Domain.Contracts.User.Output
+namespace Domain.Contracts.User
 {
-    public class ResponseLoginContract
+    public class ResponseLoginOutput
     {
         public string authorization { get; set; }
         public DateTime? expires { get; set; }

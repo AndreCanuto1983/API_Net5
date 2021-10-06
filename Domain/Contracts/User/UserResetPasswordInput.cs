@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Contracts.User.Input
+namespace Domain.Contracts.User
 {
-    public class UserResetPasswordContract
+    public class UserResetPasswordInput
     {
         [Required(ErrorMessage = "O Email é obrigatório")]        
         [EmailAddress]
