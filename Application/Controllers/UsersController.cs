@@ -49,8 +49,8 @@ namespace Api.Controllers
         /// <param name="model"></param>  
         [AllowAnonymous]
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ResponseLoginOutput), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register(UserRegisterInput model)
         {
@@ -90,10 +90,10 @@ namespace Api.Controllers
         /// <param name="model"></param>
         [Authorize]
         [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update(UserUpdateInput model)
         {
@@ -126,10 +126,10 @@ namespace Api.Controllers
         /// <param name="model"></param>
         [Authorize]
         [HttpPatch]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PartUpdate(PartUpdateUser model)
         {
@@ -165,10 +165,10 @@ namespace Api.Controllers
         //[Authorize(Roles = "Master,Admin")]
         [Authorize]
         [HttpDelete("{email}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(string email)
         {
@@ -182,7 +182,7 @@ namespace Api.Controllers
                 if (user == null)
                     return NotFound();
 
-                await _userManager.DeleteAsync(user);                
+                await _userManager.DeleteAsync(user);
 
                 return Ok();
             }
@@ -198,8 +198,8 @@ namespace Api.Controllers
         //[Authorize(Roles = "Master,Admin")]
         [Authorize]
         [HttpGet("{email}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(UserOutput), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetUsersByEmail(string email)
         {
@@ -219,9 +219,9 @@ namespace Api.Controllers
         //[Authorize(Roles = "Master,Admin")]
         [Authorize]
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(UserOutput), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll()
         {
@@ -238,6 +238,6 @@ namespace Api.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
-        }                
+        }
     }
 }

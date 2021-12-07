@@ -49,10 +49,10 @@ namespace WebAPI.Controllers
         /// <param name="model"></param>
         [AllowAnonymous]
         [HttpPost("login")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status423Locked)]
+        [ProducesResponseType(typeof(ResponseLoginOutput), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]        
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status423Locked)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login(UserLoginInput model)
         {
@@ -97,8 +97,8 @@ namespace WebAPI.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("token")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status401Unauthorized)]
         public IActionResult TokenValidate()
         {
             var userNameInToken = User.Identity.Name;
@@ -111,7 +111,7 @@ namespace WebAPI.Controllers
         /// Logout
         /// </summary>
         [HttpPost("logout")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Logout()
         {
@@ -133,9 +133,9 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("reset-password")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ResetPassword(UserResetPasswordInput model)
         {
@@ -169,10 +169,10 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("forgot-password")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ResponseLoginOutput), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status404NotFound)]        
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ForgotPassword(UserForgotPasswordInput model)
         {
