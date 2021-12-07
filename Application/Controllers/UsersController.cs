@@ -46,12 +46,12 @@ namespace Api.Controllers
         /// <summary>
         /// Cadastrar Usuário
         /// </summary>
-        /// <param name="model"></param>
-        /// <response code="201">Criado com sucesso</response>
-        /// <response code="400">Payload incorreto</response>   
-        /// <returns>201</returns>
+        /// <param name="model"></param>  
         [AllowAnonymous]
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register(UserRegisterInput model)
         {
             if (!ModelState.IsValid)
@@ -88,12 +88,13 @@ namespace Api.Controllers
         /// Atualizar Usuário
         /// </summary>
         /// <param name="model"></param>
-        /// <response code="200">Atualizado com sucesso</response>
-        /// <response code="400">Payload incorreto</response>   
-        /// <response code="401">Usuário não logado</response>
-        /// <returns>200</returns>
         [Authorize]
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update(UserUpdateInput model)
         {
             if (!ModelState.IsValid)
@@ -102,6 +103,9 @@ namespace Api.Controllers
             try
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
+
+                if (user == null)
+                    return NotFound();
 
                 var result = await _userManager.UpdateAsync(UserExtension.ConverterToUserModelForUpdate(ref user, ref model));
 
@@ -120,12 +124,13 @@ namespace Api.Controllers
         /// Atualizar Senha do Usuário
         /// </summary>
         /// <param name="model"></param>
-        /// <response code="200">Atualizado com sucesso</response>
-        /// <response code="400">Payload incorreto</response>  
-        /// <response code="401">Usuário não logado</response>
-        /// <returns>200</returns>
         [Authorize]
         [HttpPatch]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PartUpdate(PartUpdateUser model)
         {
             if (!ModelState.IsValid)
@@ -137,6 +142,9 @@ namespace Api.Controllers
             try
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
+
+                if (user == null)
+                    return NotFound();
 
                 var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
 
@@ -154,14 +162,14 @@ namespace Api.Controllers
         /// <summary>
         /// Deletar Usuário
         /// </summary>
-        /// <returns></returns>
-        /// <response code="200">Busca de lista de usuário bem sucedida</response>
-        /// <response code="400">Payload incorreto</response>
-        /// <response code="401">Usuário não logado</response>
-        /// <returns>200</returns>
         //[Authorize(Roles = "Master,Admin")]
         [Authorize]
         [HttpDelete("{email}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(string email)
         {
             if (string.IsNullOrEmpty(email))
@@ -187,15 +195,12 @@ namespace Api.Controllers
         /// <summary>
         /// Buscar Usuário Por Email
         /// </summary>
-        /// <returns></returns>
-        /// <response code="200">Busca de usuário bem sucedida</response>
-        /// <response code="400">Payload incorreto</response>
-        /// <response code="401">Usuário não logado</response>
-        /// <response code="404">Usuário não encontrado</response>
-        /// <returns>200, Usuário Desejado</returns>
         //[Authorize(Roles = "Master,Admin")]
         [Authorize]
         [HttpGet("{email}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetUsersByEmail(string email)
         {
             try
@@ -209,16 +214,15 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Buscar Usuários
+        /// Buscar Todos Usuários
         /// </summary>
-        /// <returns></returns>
-        /// <response code="200">Busca de lista de usuário bem sucedida</response>
-        /// <response code="400">Payload incorreto</response>
-        /// <response code="401">Usuário não logado</response>
-        /// <returns>200, Lista de Usuários</returns>
         //[Authorize(Roles = "Master,Admin")]
         [Authorize]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll()
         {
             try

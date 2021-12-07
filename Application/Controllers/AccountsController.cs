@@ -47,13 +47,13 @@ namespace WebAPI.Controllers
         /// Login
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>
-        /// <response code="200">Logado com sucesso</response>
-        /// <response code="400">Payload incorreto</response>
-        /// <response code="404">Usuário não encontrado</response>
-        /// <response code="423">Usuário bloqueado temporariamente</response>
         [AllowAnonymous]
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status423Locked)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login(UserLoginInput model)
         {
             if (!ModelState.IsValid)
@@ -64,7 +64,7 @@ namespace WebAPI.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
 
                 if (user == null)
-                    return NotFound("Usuário não encontrado.");
+                    return NotFound();
 
                 var role = await _userManager.GetRolesAsync(user);
 
@@ -95,10 +95,10 @@ namespace WebAPI.Controllers
         /// <summary>
         /// Validar token de usuário
         /// </summary>
-        /// <returns></returns>
-        /// <response code="200">Token validado com sucesso</response>
         [Authorize]
         [HttpPost("token")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult TokenValidate()
         {
             var userNameInToken = User.Identity.Name;
@@ -110,9 +110,9 @@ namespace WebAPI.Controllers
         /// <summary>
         /// Logout
         /// </summary>
-        /// <returns></returns>
-        /// <response code="200">Deslogado com sucesso</response>
         [HttpPost("logout")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Logout()
         {
             try
@@ -129,14 +129,14 @@ namespace WebAPI.Controllers
         /// <summary>
         /// Resetar Senha
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>   
-        /// <response code="200">Senha resetada com sucesso</response>
-        /// <response code="400">Payload incorreto</response>
-        /// <response code="404">Usuário não encontrado</response>        
+        /// <param name="model"></param>       
         [AllowAnonymous]
         [HttpPost]
         [Route("reset-password")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ResetPassword(UserResetPasswordInput model)
         {
             if (!ModelState.IsValid)
@@ -147,14 +147,14 @@ namespace WebAPI.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
 
                 if (user == null)
-                    return NotFound("Usuário não encontrado.");
+                    return NotFound();
 
                 var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
 
                 if (!result.Succeeded)
                     return BadRequest("Senha não alterada. Verifique o padrão da senha informada.");
 
-                return Ok("Senha alterada com sucesso.");
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -166,14 +166,14 @@ namespace WebAPI.Controllers
         /// Esqueceu a senha
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>
-        /// <response code="200">Permitido alteração de senha</response>
-        /// <response code="400">Payload incorreto</response>
-        /// <response code="403">Usuário sem e-mail confirmado</response>
-        /// <response code="404">Usuário não encontrado</response>
         [AllowAnonymous]
         [HttpPost]
         [Route("forgot-password")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ForgotPassword(UserForgotPasswordInput model)
         {
             if (!ModelState.IsValid)
@@ -184,7 +184,7 @@ namespace WebAPI.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
 
                 if (user == null)
-                    return NotFound("Usuário não encontrado.");
+                    return NotFound();
 
                 if (await _userManager.IsEmailConfirmedAsync(user))
                 {
