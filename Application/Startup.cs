@@ -1,3 +1,4 @@
+using Api.Configuration;
 using Core.Models.Base;
 using Domain.Models;
 using Infra.Configuration;
@@ -40,7 +41,9 @@ namespace WebAPI
                 .AddDefaultTokenProviders();
 
             //Interface Implements
-            InterfaceConfig.InterfaceImplementation(ref services);                    
+            InterfaceConfig.InterfaceImplementation(ref services);
+
+            ConfigureServiceExtensions.ConfigureServices(services);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
