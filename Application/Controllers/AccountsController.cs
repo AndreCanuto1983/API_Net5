@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status423Locked)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login(UserLoginInput model)
-        {
+        {            
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(e => e.Errors).FirstOrDefault());
 

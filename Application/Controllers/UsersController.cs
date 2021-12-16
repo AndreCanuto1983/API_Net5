@@ -63,8 +63,8 @@ namespace Api.Controllers
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
-                if (!result.Succeeded)
-                    return BadRequest("A senha deve ter de 6 a 20 caracteres e conter letra maiúscula, minúscula, caracter especial e número.");
+                if (!result.Succeeded)                    
+                    return BadRequest(result.Errors.FirstOrDefault().Description.ToString());
 
                 var createdUser = await _userManager.FindByEmailAsync(model.Email);
 
