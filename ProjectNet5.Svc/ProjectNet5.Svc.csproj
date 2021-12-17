@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infra\Infra.csproj" />
+    <ProjectReference Include="..\ProjectNet5.Infra\ProjectNet5.Infra.csproj" />
   </ItemGroup>
 
   <ItemGroup>

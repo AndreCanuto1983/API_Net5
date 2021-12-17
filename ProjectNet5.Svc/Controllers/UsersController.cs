@@ -63,7 +63,7 @@ namespace Api.Controllers
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
-                if (!result.Succeeded)                    
+                if (!result.Succeeded)
                     return BadRequest(result.Errors.FirstOrDefault().Description.ToString());
 
                 var createdUser = await _userManager.FindByEmailAsync(model.Email);
@@ -214,20 +214,26 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Buscar Todos Usuários
+        /// Buscar Todos Usuários por paginação
         /// </summary>
         //[Authorize(Roles = "Master,Admin")]
-        [Authorize]
-        [HttpGet]
+        [Authorize]        
+        [HttpGet("{skip:int}/{take:int}")]
         [ProducesResponseType(typeof(UserOutput), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(
+            int skip = 0, //traz registros paginados, por exemplo skip = 10, ele pula os 10 primeiros registros
+            int take = 10) //quantidade de registros por página
         {
+            if (skip < 0 || take <= 0 || take > 500)
+                return BadRequest();
+
             try
             {
-                var response = await _userRepository.GetUsers();
+                var response = await _userRepository.GetUsersPagination(skip, take);               
 
                 if (!response.Any())
                     return NotFound();

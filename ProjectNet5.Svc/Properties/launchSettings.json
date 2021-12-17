@@ -1,17 +1,13 @@
 {
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
-    "iis": {
-      "applicationUrl": "http://localhost/swagger",
-      "sslPort": 0
-    },
     "iisExpress": {
-      "applicationUrl": "https://localhost:44310/",
-      "sslPort": 44310
+      "applicationUrl": "http://localhost:50731/",
+      "sslPort": 44366
     }
   },
-  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",

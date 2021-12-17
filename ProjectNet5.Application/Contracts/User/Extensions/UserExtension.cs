@@ -1,22 +1,35 @@
 ﻿using Domain.Models;
+using ProjectNet5.Applications.Contracts.User;
 
 namespace Domain.Contracts.User.Extensions
 {
     public static class UserExtension
     {
         public static UserBasicOutput ConverterToUserBasicContract(this UserModel entity)
+        => new()
         {
-            return new UserBasicOutput()
-            {
-                Name = entity.UserName,
-                Email = entity.Email,
-                Location = entity.UserLocation
-            };
-        }
+            Name = entity.UserName,
+            Email = entity.Email,
+            Location = entity.UserLocation
+        };
 
         public static UserOutput ConverterToUserContract(this UserModel entity)
+        => new()
         {
-            return new UserOutput()
+            Name = entity.Name,
+            Email = entity.Email,
+            Location = entity.UserLocation,
+            BirthDate = entity.BirthDate,
+            Cpf = entity.Cpf,
+            PhoneNumber = entity.PhoneNumber
+        };
+
+        public static UserFullOutput ConverterToFullUserContract(this UserModel entity, long totalRecords, long totalPages)
+        => new()
+        {
+            TotalRecords = totalRecords,
+            TotalPages = totalPages,
+            Data = new UserOutput()
             {
                 Name = entity.Name,
                 Email = entity.Email,
@@ -24,23 +37,21 @@ namespace Domain.Contracts.User.Extensions
                 BirthDate = entity.BirthDate,
                 Cpf = entity.Cpf,
                 PhoneNumber = entity.PhoneNumber
-            };
-        }
+            }
+        };
 
         public static UserModel ConverterToUserModel(this UserRegisterInput entity)
+        => new()
         {
-            return new UserModel()
-            {
-                Name = entity.Name,
-                UserName = entity.Email,
-                Email = entity.Email,
-                EmailConfirmed = true,
-                PhoneNumber = entity.Phone,
-                UserLocation = entity.UserLocation,
-                BirthDate = entity.BirthDate,
-                Cpf = entity.Cpf
-            };
-        }
+            Name = entity.Name,
+            UserName = entity.Email,
+            Email = entity.Email,
+            EmailConfirmed = true,
+            PhoneNumber = entity.Phone,
+            UserLocation = entity.UserLocation,
+            BirthDate = entity.BirthDate,
+            Cpf = entity.Cpf
+        };
 
         public static UserModel ConverterToUserModelForUpdate(ref UserModel userModel, ref UserUpdateInput entity)
         {

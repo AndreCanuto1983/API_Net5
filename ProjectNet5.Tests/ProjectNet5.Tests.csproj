@@ -20,14 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Applications.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Api\Controllers\" />
     <Folder Include="Applications\Contracts\" />
     <Folder Include="Infra\Services\" />
     <Folder Include="Infra\Repository\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectNet5.Application\ProjectNet5.Applications.csproj" />
   </ItemGroup>
 
 </Project>
