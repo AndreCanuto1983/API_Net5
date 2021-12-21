@@ -41,7 +41,7 @@ namespace WebAPI
                 .AddDefaultTokenProviders();
 
             //Interface Implements
-            InterfaceConfig.InterfaceImplementation(ref services);
+            InterfaceConfiguration.Configurations(ref services);
 
             ConfigureServiceExtensions.ConfigureServices(services);
 

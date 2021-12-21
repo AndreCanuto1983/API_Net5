@@ -6,13 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Infra.Configuration
 {
-    public static class InterfaceConfig
+    public static class InterfaceConfiguration
     {
-        public static void InterfaceImplementation(ref IServiceCollection services)
+        public static void Configurations(ref IServiceCollection services)
         {
             //Register General
-            services.AddScoped<IGenerateToken, TokenClaimService>();                 
-            services.AddScoped<IEmailService, SendGridEmailService>();
+            services.AddScoped<ITokenClaimService, TokenClaimService>();                 
+            services.AddScoped<IEmailService, EmailService>();
 
             //Register Repository
             services.AddScoped<IUserRepository, UserRepository>();

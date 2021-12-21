@@ -1,7 +1,7 @@
 ﻿using Core.Models.Base;
 using Domain.Contracts.Account.Extensions;
-using Domain.Contracts.User.Extensions;
 using Domain.Contracts.User;
+using Domain.Contracts.User.Extensions;
 using Domain.Interfaces.Repository;
 using Domain.Models;
 using Infra.Services;
@@ -32,8 +32,7 @@ namespace Api.Controllers
            SignInManager<UserModel> signInManager,
            UserManager<UserModel> userManager,
            IOptions<AppSettings> appSettings,
-           IUserRepository userRepository
-            )
+           IUserRepository userRepository)
         {
             _signInManager = signInManager;
             _userManager = userManager;

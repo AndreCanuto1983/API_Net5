@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces.Service
 {
-    public interface IGenerateToken
+    public interface ITokenClaimService
     {
         Task<string> GenerateJwtClaims(string email, UserManager<UserModel> userManager, AppSettings appSettings);        
     }

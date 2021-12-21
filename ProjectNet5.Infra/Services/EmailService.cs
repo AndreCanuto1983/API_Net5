@@ -1,6 +1,7 @@
 ﻿using Core.Models.BaseModel;
 using Domain.Interfaces.Service;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Net;
@@ -9,13 +10,15 @@ using System.Threading.Tasks;
 
 namespace Infra.Services
 {
-    public class SendGridEmailService : IEmailService
+    public class EmailService : IEmailService
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<IEmailService> _logger;
 
-        public SendGridEmailService(IConfiguration configuration)
+        public EmailService(IConfiguration configuration, ILogger<IEmailService> logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task<bool> SendEmailAsync(string toEmail, string emailTitle)
@@ -41,13 +44,14 @@ namespace Infra.Services
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                _logger.LogError(ex, "[EmailService][SendEmailAsync]");
+                throw;
             }
         }
 
-        private string HtmlContentGenerate(string name)
+        private static string HtmlContentGenerate(string name)
         {
             //busca e lê o arquivo
             string pathToHTMLFile = @"~\WebApi\Models\EmailContent.html";

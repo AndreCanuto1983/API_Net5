@@ -26,14 +26,13 @@ namespace WebAPI.Controllers
         private readonly SignInManager<UserModel> _signInManager;
         private readonly UserManager<UserModel> _userManager;
         private readonly AppSettings _appSettings;
-        private IEmailService _emailService;
+        private readonly IEmailService _emailService;
 
         public AccountsController(
            SignInManager<UserModel> signInManager,
            UserManager<UserModel> userManager,
            IOptions<AppSettings> appSettings,
-           IEmailService emailService
-            )
+           IEmailService emailService)
         {
             _signInManager = signInManager;
             _userManager = userManager;

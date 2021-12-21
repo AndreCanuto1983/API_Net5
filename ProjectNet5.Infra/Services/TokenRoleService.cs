@@ -9,7 +9,7 @@ using System.Text;
 namespace Infra.Services
 {
     public static class TokenRoleService
-    {
+    {        
         public static string GenerateJwtRoles(UserModel user, string role, AppSettings appSettings)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
