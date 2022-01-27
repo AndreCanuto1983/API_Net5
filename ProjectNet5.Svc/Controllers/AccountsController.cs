@@ -70,7 +70,7 @@ namespace WebAPI.Controllers
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, true);
 
                 if (result.IsLockedOut)
-                    return StatusCode(StatusCodes.Status423Locked, "Sua conta foi bloquada temporariamente, por favor tente mais tarde.");
+                    return StatusCode(StatusCodes.Status423Locked);
 
                 if (result.Succeeded)
                 {
@@ -83,11 +83,11 @@ namespace WebAPI.Controllers
                     return Ok(response);
                 }
 
-                return BadRequest("Usuário ou Senha inválidos.");
+                return BadRequest();
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -121,7 +121,7 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -151,13 +151,13 @@ namespace WebAPI.Controllers
                 var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
 
                 if (!result.Succeeded)
-                    return BadRequest("Senha não alterada. Verifique o padrão da senha informada.");
+                    return BadRequest();
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -198,11 +198,11 @@ namespace WebAPI.Controllers
                     return base.Ok(response);
                 }
 
-                return StatusCode(StatusCodes.Status403Forbidden, "Este usuário não possui email confirmado.");
+                return StatusCode(StatusCodes.Status403Forbidden); //email não confirmado
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }
