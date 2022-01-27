@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Infra.Configuration
 {
-    public static class InterfaceConfiguration
+    public static class InterfaceSettings
     {
         public static void Configurations(ref IServiceCollection services)
         {

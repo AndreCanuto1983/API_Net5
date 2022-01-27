@@ -1,19 +1,14 @@
 using Api.Configuration;
-using Core.Models.Base;
 using Domain.Models;
 using Infra.Configuration;
 using Infra.Context;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using ProjectNet5.Svc.Configuration;
 using WebAPI.Configuration;
 
 namespace WebAPI
@@ -29,54 +24,18 @@ namespace WebAPI
                 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configurando o acesso ao bd
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            DBSettings.Configurations(services, Configuration);            
 
-            //cria e utiliza o context na memória, qdo a requisição terminar ele limpa o context da memória.
-            services.AddScoped<ApplicationDbContext, ApplicationDbContext>();
+            InterfaceSettings.Configurations(ref services);
 
-            services.AddIdentity<UserModel, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            ConfigureServiceExtensions.Configurations(services);
 
-            //Interface Implements
-            InterfaceConfiguration.Configurations(ref services);
-
-            ConfigureServiceExtensions.ConfigureServices(services);
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            // Configurando JWT
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-
-            services.AddAuthentication(x =>
-            {                
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false; //requerer https
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true, //habilitar validação da chave
-                    IssuerSigningKey = new SymmetricSecurityKey(key), //chave da linha 51
-                    ValidateIssuer = true, //habilita a validaçao do emissor
-                    ValidIssuer = appSettings.Emissor, //valida o emissor
-                    ValidateAudience = true, //habilita a validação da origem do token
-                    ValidAudience = appSettings.OriginValidate //valida a origem do token (url). Posso passar uma collection se eu quiser
-                };
-            });
+            JwtSettings.Configurations(services, Configuration);
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
-            services.AddCors();
 
-            //para setar um cors específico
+            services.AddCors();
+            //set especific cors
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
@@ -110,11 +69,13 @@ namespace WebAPI
             );
 
             app.UseAuthentication();
-            app.UseAuthorization(); //para autorizar roles
+
+            //for authorize roles
+            app.UseAuthorization(); 
 
             app.UseMvc();
 
-            //usar swagger
+            //using swagger
             app.UseSwaggerConfiguration();
         }
     }
