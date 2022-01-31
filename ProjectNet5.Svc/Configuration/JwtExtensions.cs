@@ -7,9 +7,9 @@ using System.Text;
 
 namespace ProjectNet5.Svc.Configuration
 {
-    public static class JwtSettings
+    public static class JwtExtensions
     {
-        public static void Configurations(IServiceCollection services, IConfiguration Configuration)
+        public static void JwtSettings(this IServiceCollection services, IConfiguration Configuration)
         {
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));

@@ -3,10 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Api.Configuration
 {
-    public static class ConfigureServiceExtensions
+    public static class ServiceExtensions
     {
         //Convert json which is CamelCase to lowercase when using System.Text.Json
-        public static void Configurations(IServiceCollection services)
+        public static void ServiceSettings(this IServiceCollection services)
         {
             services.AddControllers()
                 .AddJsonOptions(options =>

@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Infra.Configuration
 {
-    public static class InterfaceSettings
+    public static class InterfaceExtensions
     {
-        public static void Configurations(ref IServiceCollection services)
+        public static void InterfaceSettings(this IServiceCollection services)
         {
             //Register General
             services.AddScoped<ITokenClaimService, TokenClaimService>();                 

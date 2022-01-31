@@ -7,9 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ProjectNet5.Svc.Configuration
 {
-    public static class DBSettings
+    public static class DBExtensions
     {
-        public static void Configurations(IServiceCollection services, IConfiguration Configuration)
+        public static void DBSettings(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

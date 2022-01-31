@@ -24,13 +24,13 @@ namespace WebAPI
                 
         public void ConfigureServices(IServiceCollection services)
         {
-            DBSettings.Configurations(services, Configuration);            
+            services.DBSettings(Configuration);            
 
-            InterfaceSettings.Configurations(ref services);
+            services.InterfaceSettings();
 
-            ConfigureServiceExtensions.Configurations(services);
+            services.ServiceSettings();
 
-            JwtSettings.Configurations(services, Configuration);
+            services.JwtSettings(Configuration);
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
 
