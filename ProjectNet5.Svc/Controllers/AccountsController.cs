@@ -103,6 +103,10 @@ namespace WebAPI.Controllers
             var userNameInToken = User.Identity.Name;
             var userIsAuthenticatedInToken = User.Identity.IsAuthenticated;
 
+            //PEGAR INFORAÇÕES DO HEADER
+            var header = HttpContext?.Request?.Headers;
+            header?.TryGetValue("Authorization", out var authorization);
+
             return Ok();
         }
 
