@@ -51,7 +51,7 @@ namespace Infra.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "[TokenClaimService][GenerateJwtClaims]");
+                _logger.LogError(ex, "[TokenClaimService][GenerateJwtClaims] => EXCEPTION: {ex.Message}", ex.Message);                
                 throw;
             }            
         }       

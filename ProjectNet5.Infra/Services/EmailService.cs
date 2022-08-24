@@ -13,15 +13,17 @@ namespace Infra.Services
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _configuration;
-        private readonly ILogger<IEmailService> _logger;
+        private readonly ILogger<EmailService> _logger;
 
-        public EmailService(IConfiguration configuration, ILogger<IEmailService> logger)
+        public EmailService(
+            IConfiguration configuration, 
+            ILogger<EmailService> logger)
         {
             _configuration = configuration;
             _logger = logger;
         }
 
-        public async Task<bool> SendEmailAsync(string toEmail, string emailTitle)
+        public async Task<bool> SendEmailAsync(string toEmail, string subject)
         {
             try
             {
@@ -32,7 +34,7 @@ namespace Infra.Services
                 mailMessage.From = new MailAddress(emailSettings.From, "Simis");
                 mailMessage.To.Add(toEmail);
                 mailMessage.CC.Add(emailSettings.From);
-                mailMessage.Subject = emailTitle;
+                mailMessage.Subject = subject;
                 mailMessage.IsBodyHtml = true;
                 mailMessage.Body = HtmlContentGenerate("André");
 
@@ -46,7 +48,7 @@ namespace Infra.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "[EmailService][SendEmailAsync]");
+                _logger.LogError(ex, "[EmailService][SendEmailAsync] => EXCEPTION: {ex.Message}", ex.Message);
                 throw;
             }
         }

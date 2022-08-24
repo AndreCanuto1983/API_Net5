@@ -15,28 +15,23 @@ namespace WebAPI
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
                 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHealthChecks();
-
-            services.DBSettings(Configuration);            
-
+            services.DBSettings(Configuration);
             services.InterfaceSettings();
-
             services.ServiceSettings();
-
             services.JwtSettings(Configuration);
-
             services.AddMvc(options => options.EnableEndpointRouting = false);
-
             services.AddCors();
+
             //set especific cors
             services.AddCors(options =>
             {
@@ -63,7 +58,6 @@ namespace WebAPI
             }
 
             app.UseHealthChecks("/health");
-
             app.UseHttpsRedirection();
 
             app.UseCors(x => x

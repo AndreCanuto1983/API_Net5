@@ -15,9 +15,11 @@ namespace Infra.Repository
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<IUserRepository> _logger;
+        private readonly ILogger<UserRepository> _logger;
 
-        public UserRepository(ApplicationDbContext context, ILogger<IUserRepository> logger)
+        public UserRepository(
+            ApplicationDbContext context,
+            ILogger<UserRepository> logger)
         {
             _context = context;
             _logger = logger;
@@ -33,7 +35,7 @@ namespace Infra.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "[UserRepository][GetUserByEmail]");
+                _logger.LogError("[UserRepository][GetUserByEmail] => EXCEPTION: {ex.Message}", ex.Message);
                 throw;
             }
         }
@@ -58,7 +60,7 @@ namespace Infra.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "[UserRepository][GetUsersPagination]");
+                _logger.LogError("[UserRepository][GetUsersPagination] => EXCEPTION: {ex.Message}", ex.Message);
                 throw;
             }
         }
